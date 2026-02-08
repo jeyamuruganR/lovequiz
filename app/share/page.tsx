@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   FaHeart, FaCopy, FaWhatsapp, FaTelegramPlane,
-  FaRedo, FaHome
+  FaRedo, FaHome, FaSpinner
 } from "react-icons/fa";
 
 // Number of floating hearts
 const NUM_FLOATING_HEARTS = 12;
 
-export default function SharePage() {
+function SharePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const data = searchParams.get('data');
@@ -212,5 +212,20 @@ export default function SharePage() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function SharePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <FaSpinner className="text-5xl text-pink-500 animate-spin mx-auto mb-4" />
+          <div className="text-2xl font-bold text-pink-700">Loading...</div>
+        </div>
+      </div>
+    }>
+      <SharePageContent />
+    </Suspense>
   );
 }
