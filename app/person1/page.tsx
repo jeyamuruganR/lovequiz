@@ -58,6 +58,7 @@ export default function Person1Page() {
             person2_name: partner2Name.trim(),
             person1_answers: newAnswers,
             person2_answers: [], // empty for now
+            quiz_type: quizType, // Store quiz type (love or 18+)
           }])
           .select();
 
