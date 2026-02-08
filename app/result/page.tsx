@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { supabase } from '../../lib/supabaseClient';
 import { useRouter, useSearchParams } from "next/navigation";
 import { questions } from "../data/questions";
 import html2canvas from "html2canvas";
 import { FaHeart, FaUserFriends, FaDownload, FaShareAlt, FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaHome, FaRedo, FaSpinner, FaSkull, FaWhatsapp } from "react-icons/fa";
 
-export default function ResultPage() {
+function ResultPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const data = searchParams.get('data');
@@ -486,5 +486,20 @@ export default function ResultPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <FaSpinner className="text-5xl text-white animate-spin mx-auto mb-4" />
+          <div className="text-2xl font-bold text-white">Loading...</div>
+        </div>
+      </div>
+    }>
+      <ResultPageContent />
+    </Suspense>
   );
 }

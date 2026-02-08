@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { questions, sexyQuestions } from "../data/questions";
 import { FaUser, FaArrowLeft, FaExclamationTriangle, FaHome, FaSpinner } from "react-icons/fa";
 import { supabase } from '../../lib/supabaseClient';
 
-export default function Person2Page() {
+function Person2PageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const data = searchParams.get('data');
@@ -172,5 +172,20 @@ export default function Person2Page() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function Person2Page() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <FaSpinner className="text-5xl text-white animate-spin mx-auto mb-4" />
+          <div className="text-2xl font-bold text-white">Loading...</div>
+        </div>
+      </div>
+    }>
+      <Person2PageContent />
+    </Suspense>
   );
 }
