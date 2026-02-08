@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter, useSearchParams } from "next/navigation";
 import { questions, sexyQuestions } from "../data/questions";
@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 import { supabase } from "../../lib/supabaseClient";
 
-export default function Person1Page() {
+function Person1PageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -209,5 +209,21 @@ export default function Person1Page() {
         </div>
       </div>
     </div>
+  );
+}
+
+/* ---------------- SUSPENSE WRAPPER ---------------- */
+
+export default function Person1Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <FaSpinner className="text-5xl text-pink-500 animate-spin" />
+        </div>
+      }
+    >
+      <Person1PageContent />
+    </Suspense>
   );
 }
